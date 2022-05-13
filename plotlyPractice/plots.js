@@ -41,5 +41,3 @@ let caps = words.map(word => word.toUpperCase());
 console.log(caps);
 
 words = ['seal', 'dog', 'scorpion', 'orangutan', 'salamander'];
-
-console.log(words.search('^s'));
