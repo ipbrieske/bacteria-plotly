@@ -22,6 +22,8 @@ function init() {
       yData = [1, 10, 100, 1000, 10000];
     };
   
+    var temp = 6888; 
+    
     var trace = {
       x: [xData],
       y: [yData],
