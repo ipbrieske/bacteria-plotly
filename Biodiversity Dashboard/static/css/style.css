@@ -1,0 +1,9 @@
+.jumbotron {
+    background-image:url('../../Images/bacteria.gif');
+    background-size: auto 400%
+  }
+
+.background {
+    background-image:url('../../Images/background.png');
+    background-size: cover;
+}

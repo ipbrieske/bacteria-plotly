@@ -66,7 +66,7 @@ function buildCharts(sample) {
   //  5. Create a variable that holds the first sample in the array.
   var firstSample = filteredSamples[0];
 
-  // 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
+  // 6. Create variables that hold the otu_ids, otu_labels, and sample_values, and wfreq
   var otu_ids = firstSample.otu_ids.map(id => "OTU " + String(id));
   
   var otu_labels = firstSample.otu_labels.map(label => label.split(';', 10).sort());
@@ -74,6 +74,10 @@ function buildCharts(sample) {
 
   var sample_values = firstSample.sample_values;
 
+  var resultArray = data.metadata.filter(metadata => metadata.id == sample);
+  var result = resultArray[0];  
+  var wfreq = result.wfreq;
+  
   
   // 7. Create the yticks for the bar chart.
   var yticks = otu_ids.slice(0, 10);
@@ -91,10 +95,12 @@ function buildCharts(sample) {
 
   // 9. Create the layout for the bar chart. 
   var barLayout = {
-     title: 'Top Ten Bacterial Cultures',
-     yaxis: {
+    title: 'Top Ten Bacterial Cultures',
+    yaxis: {
        autorange: 'reversed'
-     }
+     },
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)'
   };
 
   // 1. Create the trace for the bubble chart.
@@ -116,8 +122,44 @@ function buildCharts(sample) {
     title: "Bacteria Cultures Per Sample",
     xaxis: {
       title: "OTU ID"
-    }
+    },
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)'
   };
+
+
+  // 4. Create the trace for the gauge chart.
+  var gaugeData = [
+     {
+       type: "indicator",
+       mode: "gauge+number",
+       value: wfreq,
+       title: "Belly Button Washing Frequency Per Week",
+       gauge: {
+          axis: {
+            range: [null, 10],
+            dtick: 2
+          },
+          steps: [
+            { range: [0, 2], color: "red" },
+            { range: [2, 4], color: "orange" },
+            { range: [4, 6], color: "yellow" },
+            { range: [6, 8], color: "lime" },
+            { range: [8, 10], color: "green" }
+          ],
+          bar: {color: "black"}
+      }
+    }
+  ];
+    
+  // 5. Create the layout for the gauge chart.
+  var gaugeLayout = { 
+    paper_bgcolor: 'rgba(0,0,0,0)',
+    plot_bgcolor: 'rgba(0,0,0,0)'
+  };
+
+  //Use Plotly to plot the gauge 
+  Plotly.newPlot("gauge", gaugeData, gaugeLayout);
 
   // 3. Use Plotly to plot the data with the layout.
   Plotly.newPlot("bubble", bubbleData, bubbleLayout); 
